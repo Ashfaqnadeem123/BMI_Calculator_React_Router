@@ -1,5 +1,5 @@
 # Ex06 BMI Calculator
-## Date: 
+## Date: 25-03-2026
 
 ## AIM
 To develop a responsive and interactive Body Mass Index (BMI) Calculator using React that allows users to input their height and weight, and calculates their BMI to categorize their health status (e.g., Underweight, Normal, Overweight, Obese).
@@ -64,10 +64,116 @@ Create routing structure with react-router-dom:
 <li>Add styling using CSS or Tailwind.</li>
 
 ## PROGRAM
+### BMICalcultor.jsx
+```jsx
+import React, { useState } from "react";
 
+export default function BMICalculator() {
+  const [weight, setWeight] = useState("");
+  const [height, setHeight] = useState("");
+  const [bmi, setBmi] = useState(null);
+  const [category, setCategory] = useState("");
+
+  const calculateBMI = () => {
+    if (!weight || !height) {
+      alert("Please enter both values");
+      return;
+    }
+
+    const heightInMeters = height / 100;
+    const bmiValue = (weight / (heightInMeters * heightInMeters)).toFixed(2);
+
+    setBmi(bmiValue);
+    setCategory(getBMICategory(bmiValue));
+  };
+
+  const getBMICategory = (bmi) => {
+    if (bmi < 18.5) return "Underweight";
+    if (bmi >= 18.5 && bmi < 24.9) return "Normal weight";
+    if (bmi >= 25 && bmi < 29.9) return "Overweight";
+    return "Obese";
+  };
+
+  return (
+    <div style={styles.container}>
+      <h2>BMI Calculator</h2>
+
+      <input
+        type="number"
+        placeholder="Weight (kg)"
+        value={weight}
+        onChange={(e) => setWeight(e.target.value)}
+        style={styles.input}
+      />
+
+      <input
+        type="number"
+        placeholder="Height (cm)"
+        value={height}
+        onChange={(e) => setHeight(e.target.value)}
+        style={styles.input}
+      />
+
+      <button onClick={calculateBMI} style={styles.button}>
+        Calculate BMI
+      </button>
+
+      {bmi && (
+        <div style={styles.result}>
+          <p>
+            <strong>BMI:</strong> {bmi}
+          </p>
+          <p>
+            <strong>Category:</strong> {category}
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+const styles = {
+  container: {
+    maxWidth: "300px",
+    margin: "50px auto",
+    textAlign: "center",
+    fontFamily: "Arial",
+  },
+  input: {
+    width: "100%",
+    padding: "10px",
+    margin: "10px 0",
+    fontSize: "16px",
+  },
+  button: {
+    padding: "10px",
+    width: "100%",
+    fontSize: "16px",
+    cursor: "pointer",
+  },
+  result: {
+    marginTop: "20px",
+  },
+};
+```
+
+### main.jsx
+```jsx
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import "./index.css";
+import BMICalculator from "./BMICalculator";
+
+createRoot(document.getElementById("root")).render(
+  <StrictMode>
+    <BMICalculator />
+  </StrictMode>,
+);
+```
 
 
 ## OUTPUT
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/fe9c5261-3242-41f5-b007-5c4df0772127" />
 
 
 
